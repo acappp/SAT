@@ -4,66 +4,62 @@ top = tk.Tk()
 top.title('Movie/Tv Show Planner Other')
 
 top.resizable(False, False)
-top.geometry('700x500')
+top.geometry('750x400')
 
 
-def monthset(month):
-    if month == "January":
-        month = 1
-    elif month == "February":
-        month = 2
-    elif month == "March":
-        month = 3
-    elif month == "April":
-        month = 4
-    elif month == "May":
-        month = 5
-    elif month == "June":
-        month = 6
-    elif month == "July":
-        month = 7
-    elif month == "August":
-        month = 8
-    elif month == "September":
-        month = 9
-    elif month == "October":
-        month = 10
-    elif month == "November":
-        month = 11
-    elif month == "December":
-        month = 12
-    return month
+
+
+ExistingEntries = []
+year = ["2017", "2018", "2019"]
+#tkvar = tk.StringVar(top)
+
 
 
 def scheduleMenu():
+    month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+             "November", "December"]
     schedule = tk.Tk()
     schedule.title("Schedule")
     schedule.resizable(False, False)
     schedule.geometry('500x400')
     # Importing calender allows me to have a calender (schedule) in the gui
 
-    month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-             "November", "December"]
-
-
 
     ## For drop boxes in schedule
     tkvar2 = tk.StringVar(top)
-    monthDropDownMenu = tk.OptionMenu(schedule, tkvar2, *month, command=monthset)
+    monthDropDownMenu = tk.OptionMenu(schedule, tkvar2, *month)
     monthDropDownMenu.pack()
 
+    nmonth = 1
+    if month == "January":
+        nmonth = 1
+    elif month == "February":
+        nmonth = 2
+    elif month == "March":
+        nmonth = 3
+    elif month == "April":
+        nmonth = 4
+    elif month == "May":
+        nmonth = 5
+    elif month == "June":
+        nmonth = 6
+    elif month == "July":
+        nmonth = 7
+    elif month == "August":
+        nmonth = 8
+    elif month == "September":
+        nmonth = 9
+    elif month == "October":
+        nmonth = 10
+    elif month == "November":
+        nmonth = 11
+    elif month == "December":
+        nmonth = 12
+
     import calendar
-    cal = calendar.month(2018, month)
+    cal = calendar.month(2018, nmonth)
     l = tk.Label(schedule, text=cal)
     l.pack()
-
-
-#year = ["2017", "2018", "2019"]
-#tkvar = tk.StringVar(top)
-
-
-
-
 
 
 
@@ -124,23 +120,33 @@ def removeEntry():
     E1 = tk.Entry(remove, bd=5)
     E1.pack()
 
-VDbutton = tk.Button(top, text="View Database", fg="black", height = 4, width = 14, command = database)
-VDbutton.pack()
 
-Editbutton = tk.Button(top, text="Edit Entry", fg="black", height = 4, width = 14, command = editmenu)
+
+
+VDbutton = tk.Button(top, text="View Database", fg="black", height = 10, width = 14, command = database)
+VDbutton.pack()
+VDbutton.place(x=30, y=55)
+
+Addbutton = tk.Button(top, text="Add Entry", fg="black", height = 4, width = 10, command = addEntry)
+Addbutton.pack()
+Addbutton.place(x=350, y=100)
+
+Removebutton = tk.Button(top, text="Remove Entry", fg="black", height = 4, width = 10, command = removeEntry)
+Removebutton.pack()
+Removebutton.place(x=600, y=100)
+
+Editbutton = tk.Button(top, text="Edit Entry", fg="black", height = 4, width = 10, command = editmenu)
 Editbutton.pack()
+Editbutton.place(x=60, y=250)
 
 VSbutton = tk.Button(top, text="View Schedule", fg="black", height = 4, width = 14, command = scheduleMenu)
 VSbutton.pack()
-
-Addbutton = tk.Button(top, text="Add Entry", fg="black", height = 4, width = 14, command = addEntry)
-Addbutton.pack()
-
-Removebutton = tk.Button(top, text="Remove Entry", fg="black", height = 4, width = 14, command = removeEntry)
-Removebutton.pack()
+VSbutton.place(x=325, y=250)
 
 Closebutton = tk.Button(top, text="Close", fg="black", height = 4, width = 14, command = quit)
 Closebutton.pack()
+Closebutton.place(x=575, y=250)
+
 
 
 
