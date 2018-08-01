@@ -67,27 +67,58 @@ def addEntry():
     add = tk.Tk()
     add.title("Add An Entry")
     add.resizable(False, False)
-    add.geometry('500x400')
+    add.geometry('750x400')
     L1 = tk.Label(add, text="Name:")
     L1.pack()
+    L1.place(x=10, y=15)
+
     E1 = tk.Entry(add, bd=5)
     E1.pack()
-    L2 = tk.Label(add, text="Year of release:")
+    E1.place(x=150, y=10)
+
+    L2 = tk.Label(add, text="Director:")
     L2.pack()
+    L2.place(x=10, y=65)
     E2 = tk.Entry(add, bd=5)
     E2.pack()
-    L3 = tk.Label(add, text="Description:")
+    E2.place(x=150, y=60)
+
+
+    L3 = tk.Label(add, text="rating:")
     L3.pack()
+    L3.place(x=10, y=115)
     E3 = tk.Entry(add, bd=5)
     E3.pack()
-    L4 = tk.Label(add, text="Director:")
+    E3.place(x=150, y=110)
+
+    L4 = tk.Label(add, text="Year of release:")
     L4.pack()
+    L4.place(x=10, y=175)
     E4 = tk.Entry(add, bd=5)
     E4.pack()
-    L5 = tk.Label(add, text="rating:")
+    E4.place(x=150, y = 170)
+
+
+    L5 = tk.Label(add, text="Description:")
     L5.pack()
+    L5.place(x = 525, y = 10)
     E5 = tk.Entry(add, bd=5)
     E5.pack()
+    E5.place(x = 475, y = 30)
+
+
+    L6 = tk.Label(add, text='')
+
+    radiomovie = tk.StringVar()
+    radiom = tk.Radiobutton(add, text="Movie", variable=radiomovie)
+    radiom.pack()
+    radiom.place(x = 450, y = 200)
+
+    radioTVShow = tk.StringVar()
+    radioT = tk.Radiobutton(add, text="TV Show", variable=radioTVShow)
+    radioT.pack()
+    radioT.place(x = 450, y = 250)
+
 
 
 def database():
@@ -121,7 +152,8 @@ def removeEntry():
     E1.pack()
 
 
-
+title = tk.Label(top, text="------------\nTV SHOW AND MOVIE PLANNER\n------------")
+title.pack()
 
 VDbutton = tk.Button(top, text="View Database", fg="black", height = 10, width = 14, command = database)
 VDbutton.pack()
