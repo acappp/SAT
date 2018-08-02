@@ -1,4 +1,5 @@
 import tkinter as tk
+
 top = tk.Tk()
 
 top.title('Movie/Tv Show Planner Other')
@@ -9,10 +10,8 @@ top.geometry('750x400')
 
 bgc = "#515151" # default background colour (dark grey)
 hdc = "#272727" # default header colour (darker grey)
-trimc = "#ff40e7" # default trim colour (Pink)
 lightbgc = "#CDCDCD" # light grey background colour (for light theme)
-lighthdc = "#AAAAAA" # light grey hearder colour (for light theme)
-Default = "#ff40e7" # default pink colour
+lighthdc = "#AAAAAA" # light grey header colour (for light theme)
 Red = "#ff0000" # red
 Orange = "#ff7f00" # orange
 Yellow = "#ffff00" # yellow
@@ -23,12 +22,12 @@ Violet = "#9400d3" # violet
 LightBlue = "#C9FFFF"
 Black = "#000000"
 White = "#FFFFFF"
+Pink = "#ff40e7" # Pink
 
 
 ExistingEntries = []
 year = ["2017", "2018", "2019"]
 #tkvar = tk.StringVar(top)
-
 
 
 def scheduleMenu():
@@ -78,33 +77,46 @@ def scheduleMenu():
     l.pack()
 
 
-
 def addEntry():
     add = tk.Tk()
     add.title("Add An Entry")
     add.resizable(False, False)
     add.geometry('750x400')
+
+    header = tk.Frame(add, bg=LightBlue, height=50, width=1000)
+    header.pack()
+    header.place(x=0, y=0)
+
+    f = tk.Frame(add, bg=Black, height=8, width=750)
+    f.pack()
+    f.place(x = 0, y = 50)
+
+    Title = tk.Label(add, text="Enter the details of your entry:")
+    Title.pack()
+    Title.configure(bg=LightBlue)
+    Title.place(x=275, y=15)
+
     L1 = tk.Label(add, text="Name:")
     L1.pack()
-    L1.place(x=10, y=15)
+    L1.place(x=10, y=95)
     E1 = tk.Entry(add, bd=5)
     E1.pack()
-    E1.place(x=150, y=10)
+    E1.place(x=150, y=90)
 
     L2 = tk.Label(add, text="Director:")
     L2.pack()
-    L2.place(x=10, y=105)
+    L2.place(x=10, y=165)
     E2 = tk.Entry(add, bd=5)
     E2.pack()
-    E2.place(x=150, y=100)
+    E2.place(x=150, y=160)
 
 
     L3 = tk.Label(add, text="rating:")
     L3.pack()
-    L3.place(x=10, y=205)
+    L3.place(x=10, y=235)
     E3 = tk.Entry(add, bd=5)
     E3.pack()
-    E3.place(x=150, y=200)
+    E3.place(x=150, y=230)
 
     L4 = tk.Label(add, text="Year of release:")
     L4.pack()
@@ -116,28 +128,31 @@ def addEntry():
 
     L5 = tk.Label(add, text="Description:")
     L5.pack()
-    L5.place(x = 525, y = 10)
+    L5.place(x = 525, y = 90)
     E5 = tk.Entry(add, bd = 5)
     E5.pack()
-    E5.place(x = 475, y = 30)
+    E5.place(x = 475, y = 125)
 
 
     L6 = tk.Label(add, text='Is the Entry a movie or Tv Show?')
     L6.pack()
-    L6.place(x = 450, y = 150)
+    L6.place(x = 450, y = 200)
     radiomovie = tk.StringVar()
     radiom = tk.Radiobutton(add, text="Movie", variable=radiomovie)
     radiom.pack()
-    radiom.place(x = 450, y = 200)
+    radiom.place(x = 450, y = 250)
     radioTVShow = tk.StringVar()
     radioT = tk.Radiobutton(add, text="TV Show", variable=radioTVShow)
     radioT.pack()
-    radioT.place(x = 450, y = 250)
+    radioT.place(x = 450, y = 300)
 
-    addButton = tk.Button(add, text="add Entry", command = lambda: getentry(E1, E2, E3, E4, E5))
+    addButton = tk.Button(add, text="Add Entry", command = lambda: getentry(E1, E2, E3, E4, E5))
     addButton.pack()
-    addButton.place(x = 325, y = 350)
+    addButton.place(x = 275, y = 350)
 
+    DoneButton = tk.Button(add, text="Done", command = exit)
+    DoneButton.pack()
+    DoneButton.place(x=375, y=350)
 
 
 def getentry(E1, E2, E3, E4, E5):
@@ -159,30 +174,62 @@ def database():
     data.title("database")
     data.resizable(False, False)
     data.geometry('500x400')
-    L1 = tk.Label(data, text="placeholder:")
+
+    header = tk.Frame(data, bg=LightBlue, height=50, width=1000)
+    header.pack()
+    header.place(x=0, y=0)
+
+    L1 = tk.Label(data, text="View Database:")
     L1.pack()
+    L1.configure(bg=LightBlue)
+    L1.place(x = 200, y = 15)
+
 
 def editmenu():
     edit = tk.Tk()
     edit.title("Edit an Existing entry")
     edit.resizable(False, False)
     edit.geometry('500x400')
-    L1 = tk.Label(edit, text="Enter the name of the entry you wish to change:")
+
+    header = tk.Frame(edit, bg=LightBlue, height=50, width=1000)
+    header.pack()
+    header.place(x=0, y=0)
+
+    L1 = tk.Label(edit, text="Edit an Entry:")
     L1.pack()
-    E1 = tk.Entry(edit, bd=5)
-    E1.pack()
+    L1.configure(bg=LightBlue)
+    L1.place(x=200, y=15)
 
-
+    L2 = tk.Label(edit, text="Enter the name of the entry you wish to change:")
+    L2.pack()
+    L2.place(x = 100, y = 50)
+    E2 = tk.Entry(edit, bd=5)
+    E2.pack()
+    E2.place(x = 150, y = 100)
 
 def removeEntry():
     remove = tk.Tk()
     remove.title("Remove Entry")
     remove.resizable(False, False)
     remove.geometry('500x400')
-    L1 = tk.Label(remove, text="Enter the name of the entry you wish to remove:")
+
+    header = tk.Frame(remove, bg=LightBlue, height=50, width=1000)
+    header.pack()
+    header.place(x=0, y=0)
+
+    L1 = tk.Label(remove, text="Remove an Entry:")
     L1.pack()
-    E1 = tk.Entry(remove, bd=5)
-    E1.pack()
+    L1.configure(bg=LightBlue)
+    L1.place(x=200, y=15)
+
+    L2 = tk.Label(remove, text="Enter the name of the entry you wish to remove:")
+    L2.pack()
+    L2.place(x=100, y=50)
+    E2 = tk.Entry(remove, bd=5)
+    E2.pack()
+    E2.place(x=150, y=100)
+
+
 
 t = tk.Frame(top, bg = LightBlue, height = 1000, width = 1000)
 t.pack()
@@ -224,7 +271,6 @@ Closebutton.place(x=540, y=230)
 
 f = tk.Frame(top, bg = Black, height = 8, width = 750)
 f.pack()
-
 
 
 
