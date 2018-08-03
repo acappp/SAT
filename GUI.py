@@ -8,6 +8,25 @@ top.resizable(False, False)
 top.geometry('750x400')
 
 
+
+
+class Alldata:
+    def __init__(self, name, director, rating, yearOfRelease, description):
+        self.name = name
+        self.director = director
+        self.rating = rating
+        self.yearOfRelease = yearOfRelease
+        self.description = description
+
+    def write(self):
+        f = open('database', 'w')
+        f.write(self.name)
+        f.write(self.director)
+        f.write(self.rating)
+        f.write(self.yearOfRelease)
+        f.write(self.description)
+        f.close
+
 bgc = "#515151" # default background colour (dark grey)
 hdc = "#272727" # default header colour (darker grey)
 lightbgc = "#CDCDCD" # light grey background colour (for light theme)
@@ -25,9 +44,13 @@ White = "#FFFFFF"
 Pink = "#ff40e7" # Pink
 
 
-ExistingEntries = []
+Movies = []
+
+
 year = ["2017", "2018", "2019"]
 #tkvar = tk.StringVar(top)
+
+
 
 
 def scheduleMenu():
@@ -44,6 +67,10 @@ def scheduleMenu():
     tkvar2 = tk.StringVar(top)
     monthDropDownMenu = tk.OptionMenu(schedule, tkvar2, *month)
     monthDropDownMenu.pack()
+
+    DoneButton = tk.Button(schedule, text="Done", command=schedule.destroy)
+    DoneButton.pack()
+    DoneButton.place(x=375, y=350)
 
     nmonth = 1
     if month == "January":
@@ -150,9 +177,10 @@ def addEntry():
     addButton.pack()
     addButton.place(x = 275, y = 350)
 
-    DoneButton = tk.Button(add, text="Done", command = exit)
+    DoneButton = tk.Button(add, text="Done", command = add.destroy)
     DoneButton.pack()
     DoneButton.place(x=375, y=350)
+
 
 
 def getentry(E1, E2, E3, E4, E5):
@@ -161,13 +189,10 @@ def getentry(E1, E2, E3, E4, E5):
     rating = E3.get()
     yearOfRelease = E4.get()
     description = E5.get()
-    f = open('database', 'w')
-    f.write(name)
-    f.write(director)
-    f.write(rating)
-    f.write(yearOfRelease)
-    f.write(description)
 
+    Movie = Alldata(name, director, rating, yearOfRelease, description)
+    Movies.append(Movie)
+    Movie.write()
 
 def database():
     data = tk.Tk()
@@ -183,6 +208,11 @@ def database():
     L1.pack()
     L1.configure(bg=LightBlue)
     L1.place(x = 200, y = 15)
+
+
+    DoneButton = tk.Button(data, text="Done", command = data.destroy)
+    DoneButton.pack()
+    DoneButton.place(x=375, y=350)
 
 
 def editmenu():
@@ -207,6 +237,11 @@ def editmenu():
     E2.pack()
     E2.place(x = 150, y = 100)
 
+    DoneButton = tk.Button(edit, text="Done", command=edit.destroy)
+    DoneButton.pack()
+    DoneButton.place(x=375, y=350)
+
+
 def removeEntry():
     remove = tk.Tk()
     remove.title("Remove Entry")
@@ -229,6 +264,20 @@ def removeEntry():
     E2.pack()
     E2.place(x=150, y=100)
 
+    DoneButton = tk.Button(remove, text="Done", command=remove.destroy)
+    DoneButton.pack()
+    DoneButton.place(x=375, y=350)
+
+
+def settings():
+    setting = tk.Tk()
+    setting.title("Settings")
+    setting.resizable(False, False)
+    setting.geometry('500x400')
+
+    DoneButton = tk.Button(setting, text="Done", command=setting.destroy)
+    DoneButton.pack()
+    DoneButton.place(x=375, y=350)
 
 
 t = tk.Frame(top, bg = LightBlue, height = 1000, width = 1000)
@@ -237,12 +286,19 @@ t.place(x = 0, y = 0)
 
 bottomf = tk.Frame(top, bg = Black, height = 500, width = 750)
 bottomf.pack()
-bottomf.place(x = 0, y = 60)
+bottomf.place(x = 0, y = 55)
 
 
-title = tk.Label(top, text="-\nTV SHOW AND MOVIE PLANNER\n-")
+title = tk.Label(top, text="TV SHOW AND MOVIE PLANNER")
 title.pack()
-title.configure(bg = LightBlue)
+title.configure(bg = LightBlue, font = ("Futura", 30))
+title.place(x = 225, y = 12)
+
+
+settingsbutton = tk.Button(top, text="Settings", fg = "Black", command = settings)
+settingsbutton.pack()
+settingsbutton.place(x = 650, y = 12)
+settingsbutton.configure(highlightbackground = LightBlue)
 
 VDbutton = tk.Button(top, text="View Database", fg="Black", height = 10, width = 40, command = database)
 VDbutton.pack()
@@ -271,6 +327,7 @@ Closebutton.place(x=540, y=230)
 
 f = tk.Frame(top, bg = Black, height = 8, width = 750)
 f.pack()
+f.place(x = 0, y = 50)
 
 
 
