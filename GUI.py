@@ -19,13 +19,19 @@ class Alldata:
         self.description = description
 
     def write(self):
-        f = open('database', 'w')
+        f = open('database', 'a')
         f.write(self.name)
+        f.write(", ")
         f.write(self.director)
+        f.write(", ")
         f.write(self.rating)
+        f.write(", ")
         f.write(self.yearOfRelease)
+        f.write(", ")
         f.write(self.description)
-        f.close
+        f.write('\n')
+        f.close()
+
 
 bgc = "#515151" # default background colour (dark grey)
 hdc = "#272727" # default header colour (darker grey)
@@ -161,17 +167,17 @@ def addEntry():
     E5.place(x = 475, y = 125)
 
 
-    L6 = tk.Label(add, text='Is the Entry a movie or Tv Show?')
-    L6.pack()
-    L6.place(x = 450, y = 200)
-    radiomovie = tk.StringVar()
-    radiom = tk.Radiobutton(add, text="Movie", variable=radiomovie)
-    radiom.pack()
-    radiom.place(x = 450, y = 250)
-    radioTVShow = tk.StringVar()
-    radioT = tk.Radiobutton(add, text="TV Show", variable=radioTVShow)
-    radioT.pack()
-    radioT.place(x = 450, y = 300)
+    #L6 = tk.Label(add, text='Is the Entry a movie or Tv Show?')
+    #L6.pack()
+    #L6.place(x = 450, y = 200)
+    #radiomovie = tk.StringVar()
+    #radiom = tk.Radiobutton(add, text="Movie", variable=radiomovie)
+    #radiom.pack()
+    #radiom.place(x = 450, y = 250)
+    #radioTVShow = tk.StringVar()
+    #radioT = tk.Radiobutton(add, text="TV Show", variable=radioTVShow)
+    #radioT.pack()
+    #radioT.place(x = 450, y = 300)
 
     addButton = tk.Button(add, text="Add Entry", command = lambda: getentry(E1, E2, E3, E4, E5))
     addButton.pack()
@@ -210,9 +216,16 @@ def database():
     L1.place(x = 200, y = 15)
 
 
+    #q = open('database', 'r')
+    #x = q.read()
+    #L2 = tk.Label(data, text = )
+    #L2.pack()
+    #L2.place(x = 0, y = 50)
+
+
     DoneButton = tk.Button(data, text="Done", command = data.destroy)
     DoneButton.pack()
-    DoneButton.place(x=375, y=350)
+    DoneButton.place(x=400, y=350)
 
 
 def editmenu():
