@@ -17,6 +17,13 @@ class Alldata:
         self.rating = rating
         self.yearOfRelease = yearOfRelease
         self.description = description
+        Names.append(name)
+        Directors.append(director)
+        Ratings.append(rating)
+        yearsOfRelease.append(yearOfRelease)
+        Descriptions.append(description)
+
+        print(Names, Directors, Ratings, yearsOfRelease, Descriptions)
 
     def write(self):
         f = open('database', 'a')
@@ -31,6 +38,8 @@ class Alldata:
         f.write(self.description)
         f.write('\n')
         f.close()
+
+
 
 
 bgc = "#515151" # default background colour (dark grey)
@@ -51,6 +60,11 @@ Pink = "#ff40e7" # Pink
 
 
 Movies = []
+Names = []
+Directors = []
+Ratings = []
+yearsOfRelease = []
+Descriptions = []
 
 
 year = ["2017", "2018", "2019"]
@@ -200,11 +214,13 @@ def getentry(E1, E2, E3, E4, E5):
     Movies.append(Movie)
     Movie.write()
 
+
+
 def database():
     data = tk.Tk()
     data.title("database")
     data.resizable(False, False)
-    data.geometry('500x400')
+    data.geometry('1000x400')
 
     header = tk.Frame(data, bg=LightBlue, height=50, width=1000)
     header.pack()
@@ -212,20 +228,51 @@ def database():
 
     L1 = tk.Label(data, text="View Database:")
     L1.pack()
-    L1.configure(bg=LightBlue)
-    L1.place(x = 200, y = 15)
+    L1.configure(bg=LightBlue,  font=("Futura", 30))
+    L1.place(x = 425, y = 5)
 
 
-    #q = open('database', 'r')
-    #x = q.read()
-    #L2 = tk.Label(data, text = )
-    #L2.pack()
-    #L2.place(x = 0, y = 50)
 
+    #MoviesLabel = tk.Label(data, text = Movies)
+
+    NameL = tk.Label(data, text = 'Names:')
+    NameL.pack()
+    NameL.place(x = 80, y = 50)
+    NLabel = tk.Label(data, text = Names)
+    NLabel.pack()
+    NLabel.place(x = 80, y = 70)
+
+    DirectorL = tk.Label(data, text='Directors:')
+    DirectorL.pack()
+    DirectorL.place(x=280, y=50)
+    DirLabel = tk.Label(data, text = Directors)
+    DirLabel.pack()
+    DirLabel.place(x = 280, y = 70)
+
+    RatingsL = tk.Label(data, text='Ratings:')
+    RatingsL.pack()
+    RatingsL.place(x=475, y=50)
+    RLabel = tk.Label(data, text = Ratings)
+    RLabel.pack()
+    RLabel.place(x = 475, y = 70)
+
+    yearsOfReleaseL = tk.Label(data, text='years Of Release:')
+    yearsOfReleaseL.pack()
+    yearsOfReleaseL.place(x=625, y=50)
+    yORLabel = tk.Label(data, text = yearsOfRelease)
+    yORLabel.pack()
+    yORLabel.place(x = 625, y = 70)
+
+    DescriptionL = tk.Label(data, text='Desciption:')
+    DescriptionL.pack()
+    DescriptionL.place(x=825, y=50)
+    DesLabel = tk.Label(data, text = Descriptions)
+    DesLabel.pack()
+    DesLabel.place(x = 825, y = 70)
 
     DoneButton = tk.Button(data, text="Done", command = data.destroy)
     DoneButton.pack()
-    DoneButton.place(x=400, y=350)
+    DoneButton.place(x=900, y=350)
 
 
 def editmenu():
@@ -341,8 +388,6 @@ Closebutton.place(x=540, y=230)
 f = tk.Frame(top, bg = Black, height = 8, width = 750)
 f.pack()
 f.place(x = 0, y = 50)
-
-
 
 
 top.mainloop()
