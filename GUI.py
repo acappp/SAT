@@ -1,46 +1,10 @@
 import tkinter as tk
-
 top = tk.Tk()
 
-top.title('Movie/Tv Show Planner Other')
+top.title('Movie Database')
 
 top.resizable(False, False)
 top.geometry('750x400')
-
-
-
-
-class Alldata:
-    def __init__(self, name, director, rating, yearOfRelease, description):
-        self.name = name
-        self.director = director
-        self.rating = rating
-        self.yearOfRelease = yearOfRelease
-        self.description = description
-        Names.append(name)
-        Directors.append(director)
-        Ratings.append(rating)
-        yearsOfRelease.append(yearOfRelease)
-        Descriptions.append(description)
-
-        print(Names, Directors, Ratings, yearsOfRelease, Descriptions)
-
-    def write(self):
-        f = open('database', 'a')
-        f.write(self.name)
-        f.write(", ")
-        f.write(self.director)
-        f.write(", ")
-        f.write(self.rating)
-        f.write(", ")
-        f.write(self.yearOfRelease)
-        f.write(", ")
-        f.write(self.description)
-        f.write('\n')
-        f.close()
-
-
-
 
 bgc = "#515151" # default background colour (dark grey)
 hdc = "#272727" # default header colour (darker grey)
@@ -59,18 +23,47 @@ White = "#FFFFFF"
 Pink = "#ff40e7" # Pink
 
 
+
+class Alldata:
+    def __init__(self, name, director, rating, yearOfRelease, description):
+        self.name = name
+        self.director = director
+        self.rating = rating
+        self.yearOfRelease = yearOfRelease
+        self.description = description
+
+    def write(self):
+        f = open('database', 'a')
+        f.write(self.name)
+        f.write("@")
+        f.write(self.director)
+        f.write("@")
+        f.write(self.rating)
+        f.write("@")
+        f.write(self.yearOfRelease)
+        f.write("@")
+        f.write(self.description)
+        f.write('\n')
+        f.close()
+
+
 Movies = []
-Names = []
-Directors = []
-Ratings = []
-yearsOfRelease = []
-Descriptions = []
+
+
+def startread():
+    p = open('database', 'r')
+    for line in p:
+        slist = line.split("@")
+        Movie = Alldata(slist[0], slist[1], slist[2], slist[3], slist[4])
+        Movies.append(Movie)
+
+    p.close()
+    return Movies
+
 
 
 year = ["2017", "2018", "2019"]
 #tkvar = tk.StringVar(top)
-
-
 
 
 def scheduleMenu():
@@ -122,7 +115,6 @@ def scheduleMenu():
     cal = calendar.month(2018, nmonth)
     l = tk.Label(schedule, text=cal)
     l.pack()
-
 
 def addEntry():
     add = tk.Tk()
@@ -201,8 +193,6 @@ def addEntry():
     DoneButton.pack()
     DoneButton.place(x=375, y=350)
 
-
-
 def getentry(E1, E2, E3, E4, E5):
     name = E1.get()
     director = E2.get()
@@ -214,7 +204,11 @@ def getentry(E1, E2, E3, E4, E5):
     Movies.append(Movie)
     Movie.write()
 
-
+    E1.delete(0, 'end')
+    E2.delete(0, 'end')
+    E3.delete(0, 'end')
+    E4.delete(0, 'end')
+    E5.delete(0, 'end')
 
 def database():
     data = tk.Tk()
@@ -231,49 +225,53 @@ def database():
     L1.configure(bg=LightBlue,  font=("Futura", 30))
     L1.place(x = 425, y = 5)
 
-
-
+    F1 = tk.Frame(data, bg=Black, height=5, width=1000)
+    F1.pack()
+    F1.place(x=0, y=45)
     #MoviesLabel = tk.Label(data, text = Movies)
 
-    NameL = tk.Label(data, text = 'Names:')
+    NameL = tk.Label(data, text='Name:')
     NameL.pack()
-    NameL.place(x = 80, y = 50)
-    NLabel = tk.Label(data, text = Names)
-    NLabel.pack()
-    NLabel.place(x = 80, y = 70)
-
-    DirectorL = tk.Label(data, text='Directors:')
+    NameL.place(x=40, y=50)
+    DirectorL = tk.Label(data, text='Director:')
     DirectorL.pack()
-    DirectorL.place(x=280, y=50)
-    DirLabel = tk.Label(data, text = Directors)
-    DirLabel.pack()
-    DirLabel.place(x = 280, y = 70)
-
+    DirectorL.place(x=240, y=50)
     RatingsL = tk.Label(data, text='Ratings:')
     RatingsL.pack()
-    RatingsL.place(x=475, y=50)
-    RLabel = tk.Label(data, text = Ratings)
-    RLabel.pack()
-    RLabel.place(x = 475, y = 70)
-
+    RatingsL.place(x=435, y=50)
     yearsOfReleaseL = tk.Label(data, text='years Of Release:')
     yearsOfReleaseL.pack()
-    yearsOfReleaseL.place(x=625, y=50)
-    yORLabel = tk.Label(data, text = yearsOfRelease)
-    yORLabel.pack()
-    yORLabel.place(x = 625, y = 70)
-
-    DescriptionL = tk.Label(data, text='Desciption:')
+    yearsOfReleaseL.place(x=585, y=50)
+    DescriptionL = tk.Label(data, text='Description:')
     DescriptionL.pack()
-    DescriptionL.place(x=825, y=50)
-    DesLabel = tk.Label(data, text = Descriptions)
-    DesLabel.pack()
-    DesLabel.place(x = 825, y = 70)
+    DescriptionL.place(x=785, y=50)
+
+    y = 1
+    for i in Movies:
+        NLabel = tk.Label(data, text = i.name)
+        NLabel.pack()
+        NLabel.place(x = 40, y = 50+(y*20))
+
+        DirLabel = tk.Label(data, text = i.director)
+        DirLabel.pack()
+        DirLabel.place(x = 240, y = 50+(y*20))
+
+        RLabel = tk.Label(data, text = i.rating)
+        RLabel.pack()
+        RLabel.place(x = 435, y = 50+(y*20))
+
+        yORLabel = tk.Label(data, text = i.yearOfRelease)
+        yORLabel.pack()
+        yORLabel.place(x = 585, y = 50+(y*20))
+
+        DesLabel = tk.Label(data, text = i.description)
+        DesLabel.pack()
+        DesLabel.place(x = 785, y = 50+(y*20))
+        y = y+1
 
     DoneButton = tk.Button(data, text="Done", command = data.destroy)
     DoneButton.pack()
     DoneButton.place(x=900, y=350)
-
 
 def editmenu():
     edit = tk.Tk()
@@ -301,7 +299,6 @@ def editmenu():
     DoneButton.pack()
     DoneButton.place(x=375, y=350)
 
-
 def removeEntry():
     remove = tk.Tk()
     remove.title("Remove Entry")
@@ -328,17 +325,19 @@ def removeEntry():
     DoneButton.pack()
     DoneButton.place(x=375, y=350)
 
-
 def settings():
     setting = tk.Tk()
     setting.title("Settings")
     setting.resizable(False, False)
     setting.geometry('500x400')
 
+
     DoneButton = tk.Button(setting, text="Done", command=setting.destroy)
     DoneButton.pack()
     DoneButton.place(x=375, y=350)
 
+
+startread()
 
 t = tk.Frame(top, bg = LightBlue, height = 1000, width = 1000)
 t.pack()
@@ -349,10 +348,10 @@ bottomf.pack()
 bottomf.place(x = 0, y = 55)
 
 
-title = tk.Label(top, text="TV SHOW AND MOVIE PLANNER")
+title = tk.Label(top, text="MOVIE PLANNER")
 title.pack()
 title.configure(bg = LightBlue, font = ("Futura", 30))
-title.place(x = 225, y = 12)
+title.place(x = 300, y = 12)
 
 
 settingsbutton = tk.Button(top, text="Settings", fg = "Black", command = settings)
