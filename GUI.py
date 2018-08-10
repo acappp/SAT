@@ -5,6 +5,7 @@ top.title('Movie Database')
 top.resizable(False, False)
 top.geometry('750x400')
 
+
 bgc = "#515151" # default background colour (dark grey)
 hdc = "#272727" # default header colour (darker grey)
 lightbgc = "#CDCDCD" # light grey background colour (for light theme)
@@ -254,24 +255,33 @@ def addEntry():
     DoneButton.pack()
     DoneButton.place(x=375, y=350)
 
+
 def getentry(E1, E2, E3, E4, E5):
-    name = E1.get()
-    #if name == '':
+    repeat = True
+    while repeat == True:
+        name = E1.get()
+        director = E2.get()
+        rating = E3.get()
+        yearOfRelease = E4.get()
+        description = E5.get()
 
-    director = E2.get()
-    rating = E3.get()
-    yearOfRelease = E4.get()
-    description = E5.get()
+        if name and director and rating and yearOfRelease and description != '':
+            Movie = Alldata(name, director, rating, yearOfRelease, description)
+            Movies.append(Movie)
+            Movie.write()
 
-    Movie = Alldata(name, director, rating, yearOfRelease, description)
-    Movies.append(Movie)
-    Movie.write()
+            repeat = False
 
-    E1.delete(0, 'end')
-    E2.delete(0, 'end')
-    E3.delete(0, 'end')
-    E4.delete(0, 'end')
-    E5.delete(0, 'end')
+            E1.delete(0, 'end')
+            E2.delete(0, 'end')
+            E3.delete(0, 'end')
+            E4.delete(0, 'end')
+            E5.delete(0, 'end')
+
+        else:
+            break
+
+
 
 def database():
     data = tk.Tk()
@@ -327,6 +337,7 @@ def database():
         yORLabel.pack()
         yORLabel.place(x = 500, y = 50+(y*20))
 
+
         DesLabel = tk.Label(data, text = i.description)
         DesLabel.pack()
         DesLabel.place(x = 650, y = 50+(y*20))
@@ -335,6 +346,17 @@ def database():
     DoneButton = tk.Button(data, text="Done", command = data.destroy)
     DoneButton.pack()
     DoneButton.place(x=900, y=350)
+
+
+#    ysortButton = tk.Button(data, text="Sort via Year", command = lambda: yearSort(i.yearOfRelease))
+#    ysortButton.pack()
+#    ysortButton.place(x=50, y = 10)
+#    ysortButton.configure(highlightbackground = LightBlue)
+
+
+# def yearSort():
+#        yearOfRelease.sort()
+
 
 def settings():
     setting = tk.Tk()
@@ -386,9 +408,9 @@ Editbutton = tk.Button(top, text="Edit Entry", fg="black", height = 10, width = 
 Editbutton.pack()
 Editbutton.place(x=0, y=230)
 
-#VSbutton = tk.Button(top, text="View Schedule", fg="black", height = 10, width = 30, command = scheduleMenu)
-#VSbutton.pack()
-#VSbutton.place(x=270, y=230)
+VSbutton = tk.Button(top, text="View Schedule", fg="black", height = 10, width = 30 ) #command = scheduleMenu)
+VSbutton.pack()
+VSbutton.place(x=270, y=230)
 
 Closebutton = tk.Button(top, text="Close", fg= "Black", height = 10, width = 23, command = quit)
 Closebutton.pack()
