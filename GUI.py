@@ -2,7 +2,6 @@ import tkinter as tk
 top = tk.Tk()
 
 top.title('Movie Database')
-
 top.resizable(False, False)
 top.geometry('750x400')
 
@@ -34,6 +33,7 @@ class Alldata:
 
     def write(self):
         f = open('database', 'a')
+        f.write('\n')
         f.write(self.name)
         f.write("@")
         f.write(self.director)
@@ -43,7 +43,7 @@ class Alldata:
         f.write(self.yearOfRelease)
         f.write("@")
         f.write(self.description)
-        f.write('\n')
+
         f.close()
 
 
@@ -66,55 +66,116 @@ year = ["2017", "2018", "2019"]
 #tkvar = tk.StringVar(top)
 
 
-def scheduleMenu():
-    month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-             "November", "December"]
-    schedule = tk.Tk()
-    schedule.title("Schedule")
-    schedule.resizable(False, False)
-    schedule.geometry('500x400')
-    # Importing calender allows me to have a calender (schedule) in the gui
+def editmenu():
+    edit = tk.Tk()
+    edit.title("Edit an Existing entry")
+    edit.resizable(False, False)
+    edit.geometry('500x400')
 
+    header = tk.Frame(edit, bg=LightBlue, height=50, width=1000)
+    header.pack()
+    header.place(x=0, y=0)
 
-    ## For drop boxes in schedule
-    tkvar2 = tk.StringVar(top)
-    monthDropDownMenu = tk.OptionMenu(schedule, tkvar2, *month)
-    monthDropDownMenu.pack()
+    F1 = tk.Frame(edit, bg=Black, height=5, width=1000)
+    F1.pack()
+    F1.place(x=0, y=45)
 
-    DoneButton = tk.Button(schedule, text="Done", command=schedule.destroy)
+    L1 = tk.Label(edit, text="Edit an Entry:")
+    L1.pack()
+    L1.configure(bg=LightBlue)
+    L1.place(x=200, y=15)
+
+    L2 = tk.Label(edit, text="Enter the name of the entry you wish to change:")
+    L2.pack()
+    L2.place(x = 100, y = 50)
+
+    ## For drop the box
+    #def generateEditlist():
+    #    mNames = []
+    #    for i in Movies:
+    #        mNames.append(i.name)
+    #    tkvar = tk.StringVar(edit)
+    #    tkvar.set(mNames[0])
+
+    #    DropMenu = tk.OptionMenu(edit, tkvar, *mNames)
+    #    DropMenu.pack()
+    #    DropMenu.place(x=125, y=75)
+    #    DropMenu.configure(height=2, width=30)
+
+    #    return tkvar
+
+    #def edit(tkvar):
+    #    e = tkvar.get()
+    #    print(e)
+    #    Movies.pop(0)
+
+    # Remove entry command .remove
+
+    #tkvar = generateEditlist()
+
+    #DeleteButton = tk.Button(edit, text="Delete", command=lambda: edit(tkvar))
+    #DeleteButton.pack()
+    #DeleteButton.place(x=300, y=350)
+
+    DoneButton = tk.Button(edit, text="Done", command=edit.destroy)
     DoneButton.pack()
     DoneButton.place(x=375, y=350)
 
-    nmonth = 1
-    if month == "January":
-        nmonth = 1
-    elif month == "February":
-        nmonth = 2
-    elif month == "March":
-        nmonth = 3
-    elif month == "April":
-        nmonth = 4
-    elif month == "May":
-        nmonth = 5
-    elif month == "June":
-        nmonth = 6
-    elif month == "July":
-        nmonth = 7
-    elif month == "August":
-        nmonth = 8
-    elif month == "September":
-        nmonth = 9
-    elif month == "October":
-        nmonth = 10
-    elif month == "November":
-        nmonth = 11
-    elif month == "December":
-        nmonth = 12
+def removeEntry():
+    remove = tk.Tk()
+    remove.title("Remove Entry")
+    remove.resizable(False, False)
+    remove.geometry('500x400')
 
-    import calendar
-    cal = calendar.month(2018, nmonth)
-    l = tk.Label(schedule, text=cal)
-    l.pack()
+    header = tk.Frame(remove, bg=LightBlue, height=50, width=1000)
+    header.pack()
+    header.place(x=0, y=0)
+
+    F1 = tk.Frame(header, bg=Black, height=5, width=1000)
+    F1.pack()
+    F1.place(x=0, y=45)
+
+    L1 = tk.Label(remove, text="Remove an Entry:")
+    L1.pack()
+    L1.configure(bg=LightBlue)
+    L1.place(x=200, y=15)
+
+    L2 = tk.Label(remove, text="Select the name of the entry you wish to remove:")
+    L2.pack()
+    L2.place(x=100, y=50)
+
+    ## For drop the box
+    def generatelist():
+        mNames = []
+        for i in Movies:
+            mNames.append(i.name)
+        tkvar = tk.StringVar(remove)
+        tkvar.set(mNames[0])
+
+        DropMenu = tk.OptionMenu(remove, tkvar, *mNames)
+        DropMenu.pack()
+        DropMenu.place(x=125, y=75)
+        DropMenu.configure(height=2, width=30)
+
+        return tkvar
+
+    def delete(tkvar):
+        p = tkvar.get()
+        print(p)
+        Movies.pop(0)
+
+    # Remove entry command .remove
+
+    tkvar = generatelist()
+
+    DeleteButton = tk.Button(remove, text="Delete", command=lambda: delete(tkvar))
+    DeleteButton.pack()
+    DeleteButton.place(x=300, y=350)
+
+    DoneButton = tk.Button(remove, text="Done", command=remove.destroy)
+    DoneButton.pack()
+    DoneButton.place(x=375, y=350)
+
 
 def addEntry():
     add = tk.Tk()
@@ -195,6 +256,8 @@ def addEntry():
 
 def getentry(E1, E2, E3, E4, E5):
     name = E1.get()
+    #if name == '':
+
     director = E2.get()
     rating = E3.get()
     yearOfRelease = E4.get()
@@ -236,15 +299,15 @@ def database():
     DirectorL = tk.Label(data, text='Director:')
     DirectorL.pack()
     DirectorL.place(x=240, y=50)
-    RatingsL = tk.Label(data, text='Ratings:')
+    RatingsL = tk.Label(data, text='Rating:')
     RatingsL.pack()
-    RatingsL.place(x=435, y=50)
-    yearsOfReleaseL = tk.Label(data, text='years Of Release:')
+    RatingsL.place(x=400, y=50)
+    yearsOfReleaseL = tk.Label(data, text='Year Of Release:')
     yearsOfReleaseL.pack()
-    yearsOfReleaseL.place(x=585, y=50)
+    yearsOfReleaseL.place(x=500, y=50)
     DescriptionL = tk.Label(data, text='Description:')
     DescriptionL.pack()
-    DescriptionL.place(x=785, y=50)
+    DescriptionL.place(x=650, y=50)
 
     y = 1
     for i in Movies:
@@ -258,72 +321,20 @@ def database():
 
         RLabel = tk.Label(data, text = i.rating)
         RLabel.pack()
-        RLabel.place(x = 435, y = 50+(y*20))
+        RLabel.place(x = 400, y = 50+(y*20))
 
         yORLabel = tk.Label(data, text = i.yearOfRelease)
         yORLabel.pack()
-        yORLabel.place(x = 585, y = 50+(y*20))
+        yORLabel.place(x = 500, y = 50+(y*20))
 
         DesLabel = tk.Label(data, text = i.description)
         DesLabel.pack()
-        DesLabel.place(x = 785, y = 50+(y*20))
+        DesLabel.place(x = 650, y = 50+(y*20))
         y = y+1
 
     DoneButton = tk.Button(data, text="Done", command = data.destroy)
     DoneButton.pack()
     DoneButton.place(x=900, y=350)
-
-def editmenu():
-    edit = tk.Tk()
-    edit.title("Edit an Existing entry")
-    edit.resizable(False, False)
-    edit.geometry('500x400')
-
-    header = tk.Frame(edit, bg=LightBlue, height=50, width=1000)
-    header.pack()
-    header.place(x=0, y=0)
-
-    L1 = tk.Label(edit, text="Edit an Entry:")
-    L1.pack()
-    L1.configure(bg=LightBlue)
-    L1.place(x=200, y=15)
-
-    L2 = tk.Label(edit, text="Enter the name of the entry you wish to change:")
-    L2.pack()
-    L2.place(x = 100, y = 50)
-    E2 = tk.Entry(edit, bd=5)
-    E2.pack()
-    E2.place(x = 150, y = 100)
-
-    DoneButton = tk.Button(edit, text="Done", command=edit.destroy)
-    DoneButton.pack()
-    DoneButton.place(x=375, y=350)
-
-def removeEntry():
-    remove = tk.Tk()
-    remove.title("Remove Entry")
-    remove.resizable(False, False)
-    remove.geometry('500x400')
-
-    header = tk.Frame(remove, bg=LightBlue, height=50, width=1000)
-    header.pack()
-    header.place(x=0, y=0)
-
-    L1 = tk.Label(remove, text="Remove an Entry:")
-    L1.pack()
-    L1.configure(bg=LightBlue)
-    L1.place(x=200, y=15)
-
-    L2 = tk.Label(remove, text="Enter the name of the entry you wish to remove:")
-    L2.pack()
-    L2.place(x=100, y=50)
-    E2 = tk.Entry(remove, bd=5)
-    E2.pack()
-    E2.place(x=150, y=100)
-
-    DoneButton = tk.Button(remove, text="Done", command=remove.destroy)
-    DoneButton.pack()
-    DoneButton.place(x=375, y=350)
 
 def settings():
     setting = tk.Tk()
@@ -375,9 +386,9 @@ Editbutton = tk.Button(top, text="Edit Entry", fg="black", height = 10, width = 
 Editbutton.pack()
 Editbutton.place(x=0, y=230)
 
-VSbutton = tk.Button(top, text="View Schedule", fg="black", height = 10, width = 30, command = scheduleMenu)
-VSbutton.pack()
-VSbutton.place(x=270, y=230)
+#VSbutton = tk.Button(top, text="View Schedule", fg="black", height = 10, width = 30, command = scheduleMenu)
+#VSbutton.pack()
+#VSbutton.place(x=270, y=230)
 
 Closebutton = tk.Button(top, text="Close", fg= "Black", height = 10, width = 23, command = quit)
 Closebutton.pack()
