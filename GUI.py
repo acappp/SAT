@@ -15,7 +15,7 @@ top = tk.Tk()
 # and preventing it from being resizable by the user
 top.title('Movie Database')
 top.resizable(False, False)
-top.geometry('750x400')
+top.geometry('750x325')
 
 
 # Setting all colours as callable string value
@@ -62,24 +62,85 @@ class Alldata:
         f.write(self.description)
         f.close()
 
-
 def clearfile():
     f = open('database', 'w')
     f.close()
 
 
-def ratesort():
+#def ratesort():
    # mRating = []
-    for i in Movies:
-        n = i.rating
-        ratingsorted = n.sort()
-        print(ratingsorted)
-        return ratingsorted
+#    for i in Movies:
+#        n = i.rating
+#        ratingsorted = n.sort()
+#        print(ratingsorted)
+#        return ratingsorted
 
 
+
+        # Merge sort function, recursively sorts 2 lists
+
+Movies = []
+
+
+
+def ratesort(Movies):
+    # Check to see if the list is only a single item, if so return the single item list
+    if (len(Movies) < 2):
+        return Movies
+
+    # Setting up initial variable for splitting lists
+    listLength = len(Movies)
+    index = 0
+    list1 = []
+    list2 = []
+
+    # Loop that splits 1 list into 2 lists of roughly equal length
+    while index < listLength:
+        if (index + 1 <= int((listLength) / 2)):
+            list1.append(Movies[index])
+        else:
+            list2.append(Movies[index])
+        index += 1
+
+    # Take our 2 lists, and give one each to a recursive call of MergeSort (this function)
+    returnedList1 = ratesort(list1)
+    returnedList2 = ratesort(list2)
+
+    # Initise the list to return
+    sortedList = []
+
+    # This loop will run based on the total length of both lists
+    for i in range(0, len(list1) + len(list2)):
+        # We check if we are out of value for list1
+        if len(returnedList1) < 1:
+            # If we are out of values append the rest of list2 and end the loop
+            for i in returnedList2:
+                sortedList.append(i)
+            break
+        # Same as above, only for list2, then appending list1
+        if len(returnedList2) < 1:
+            for i in returnedList1:
+                sortedList.append(i)
+            break
+        # Check which value is smaller and add that next to the sorted list
+        if returnedList1[0].rating < returnedList2[0].rating:
+            sortedList.append(returnedList1.pop(0))
+        elif returnedList2[0].rating < returnedList1[0].rating:
+            sortedList.append(returnedList2.pop(0))
+        # Values must be equal, add both to sorted list
+        else:
+            sortedList.append(returnedList1.pop(0))
+            sortedList.append(returnedList2.pop(0))
+    Movies = sortedList
+    return Movies
+
+
+userList = []
+list = ratesort(userList)
+print(list)
 
 # This is where the entries are stored alogside the file
-Movies = []
+
 
 
 # The purpose of this function is to read the file and add all previous entries into the list
@@ -102,63 +163,11 @@ def startread():
     return Movies
 
 
-# This is the function for the edit menu
-def editmenu():
-    edit = tk.Tk()
-    edit.title("Edit an Existing entry")
-    edit.resizable(False, False)
-    edit.geometry('500x400')
-
-    header = tk.Frame(edit, bg=LightBlue, height=50, width=1000)
-    header.pack()
-    header.place(x=0, y=0)
-    F1 = tk.Frame(edit, bg=Black, height=5, width=1000)
-    F1.pack()
-    F1.place(x=0, y=45)
-    L1 = tk.Label(edit, text="Edit an Entry:")
-    L1.pack()
-    L1.configure(bg=LightBlue, font = ("Futura", 20))
-    L1.place(x=200, y=10)
-    L2 = tk.Label(edit, text="Select the name of the entry you wish to change:")
-    L2.pack()
-    L2.place(x = 100, y = 50)
-
-
-    ## For drop the box
-    def generatelist():
-        mNames = []
-        for i in Movies:
-            mNames.append(i.name)
-        tkvar = tk.StringVar(edit)
-        tkvar.set(mNames[0])
-
-        DropMenu = tk.OptionMenu(edit, tkvar, *mNames)
-        DropMenu.pack()
-        DropMenu.place(x=125, y=75)
-        DropMenu.configure(height=2, width=30)
-
-        return tkvar
-
-    def delete(tkvar):
-        p = tkvar.get()
-        print(p)
-        Movies.pop(0)
-
-    tkvar = generatelist()
-
-    editButton = tk.Button(edit, text="Edit Entry", command=lambda: delete(tkvar))
-    editButton.pack()
-    editButton.place(x=275, y=350)
-
-    DoneButton = tk.Button(edit, text="Done", command=edit.destroy)
-    DoneButton.pack()
-    DoneButton.place(x=375, y=350)
-
 def removeEntry():
     remove = tk.Tk()
     remove.title("Remove Entry")
     remove.resizable(False, False)
-    remove.geometry('500x400')
+    remove.geometry('500x200')
 
     header = tk.Frame(remove, bg=LightBlue, height=50, width=1000)
     header.pack()
@@ -214,18 +223,18 @@ def removeEntry():
 
     DeleteButton = tk.Button(remove, text="Delete", command=lambda: delete(tkvar))
     DeleteButton.pack()
-    DeleteButton.place(x=300, y=350)
+    DeleteButton.place(x=300, y=150)
 
     DoneButton = tk.Button(remove, text="Done", command=remove.destroy)
     DoneButton.pack()
-    DoneButton.place(x=375, y=350)
+    DoneButton.place(x=375, y=150)
 
 
 def addEntry():
     add = tk.Tk()
     add.title("Add An Entry")
     add.resizable(False, False)
-    add.geometry('750x400')
+    add.geometry('500x550')
 
     header = tk.Frame(add, bg=LightBlue, height=50, width=1000)
     header.pack()
@@ -238,19 +247,19 @@ def addEntry():
     Title = tk.Label(add, text="Enter the details of your entry:")
     Title.pack()
     Title.configure(bg=LightBlue, font = ("Futura", 20))
-    Title.place(x=275, y=15)
+    Title.place(x=150, y=15)
 
     L1 = tk.Label(add, text="Name:")
     L1.pack()
     L1.place(x=10, y=95)
-    E1 = tk.Entry(add, bd=5)
+    E1 = tk.Entry(add, bd=5, width = 40)
     E1.pack()
     E1.place(x=150, y=90)
 
     L2 = tk.Label(add, text="Director:")
     L2.pack()
     L2.place(x=10, y=165)
-    E2 = tk.Entry(add, bd=5)
+    E2 = tk.Entry(add, bd=5, width = 40)
     E2.pack()
     E2.place(x=150, y=160)
 
@@ -258,24 +267,24 @@ def addEntry():
     L3 = tk.Label(add, text="rating:")
     L3.pack()
     L3.place(x=10, y=235)
-    E3 = tk.Entry(add, bd=5)
+    E3 = tk.Entry(add, bd=5, width = 40)
     E3.pack()
     E3.place(x=150, y=230)
 
     L4 = tk.Label(add, text="Year of release:")
     L4.pack()
     L4.place(x=10, y=305)
-    E4 = tk.Entry(add, bd=5)
+    E4 = tk.Entry(add, bd=5, width = 40)
     E4.pack()
     E4.place(x=150, y = 300)
 
 
     L5 = tk.Label(add, text="Description:")
     L5.pack()
-    L5.place(x = 525, y = 90)
-    E5 = tk.Entry(add, bd = 5)
+    L5.place(x = 10, y = 375)
+    E5 = tk.Entry(add, bd = 5, width = 40)
     E5.pack()
-    E5.place(x = 475, y = 125)
+    E5.place(x = 150, y = 370)
 
 
     #L6 = tk.Label(add, text='Is the Entry a movie or Tv Show?')
@@ -292,11 +301,11 @@ def addEntry():
 
     addButton = tk.Button(add, text="Add Entry", command = lambda: getentry(E1, E2, E3, E4, E5))
     addButton.pack()
-    addButton.place(x = 275, y = 350)
+    addButton.place(x = 150, y = 500)
 
     DoneButton = tk.Button(add, text="Done", command = add.destroy)
     DoneButton.pack()
-    DoneButton.place(x=375, y=350)
+    DoneButton.place(x=250, y=500)
 
 
 def getentry(E1, E2, E3, E4, E5):
@@ -361,9 +370,9 @@ def database():
     yearsOfReleaseL = tk.Label(data, text='Year Of Release:')
     yearsOfReleaseL.pack()
     yearsOfReleaseL.place(x=500, y=50)
-    DescriptionL = tk.Label(data, text='Description:')
-    DescriptionL.pack()
-    DescriptionL.place(x=650, y=50)
+    #DescriptionL = tk.Label(data, text='Description:')
+    #DescriptionL.pack()
+    #DescriptionL.place(x=650, y=50)
 
     y = 1
     for i in Movies:
@@ -393,8 +402,10 @@ def database():
     DoneButton.pack()
     DoneButton.place(x=900, y=350)
 
+    #def command():
+    #    Movies = lambda: ratesort(Movies)
 
-    sortButton = tk.Button(data, text="Sort via Rating", command=ratesort)
+    sortButton = tk.Button(data, text="Sort via Rating", command=lambda: ratesort(Movies))
     sortButton.pack()
     sortButton.place(x=50, y = 10)
     sortButton.configure(highlightbackground = LightBlue)
@@ -445,29 +456,21 @@ settingsbutton.pack()
 settingsbutton.place(x = 650, y = 12)
 settingsbutton.configure(highlightbackground = LightBlue)
 
-VDbutton = tk.Button(top, text="View Database", fg="Black", height = 10, width = 40, command = database)
+VDbutton = tk.Button(top, text="View Database", fg="Black", height = 10, width = 27, command = database)
 VDbutton.pack()
-VDbutton.place(x=0, y=55)
+VDbutton.place(x=1, y=55)
 
-Addbutton = tk.Button(top, text="Add Entry", fg="black", height = 10, width = 15, command = addEntry)
+Addbutton = tk.Button(top, text="Add Entry", fg="black", height = 10, width = 28, command = addEntry)
 Addbutton.pack()
-Addbutton.place(x=350, y=55)
+Addbutton.place(x=249, y=55)
 
-Removebutton = tk.Button(top, text="Remove Entry", fg="black", height = 10, width = 30, command = removeEntry)
+Removebutton = tk.Button(top, text="Remove Entry", fg="black", height = 10, width = 27, command = removeEntry)
 Removebutton.pack()
-Removebutton.place(x=500, y=55)
+Removebutton.place(x=505, y=55)
 
-Editbutton = tk.Button(top, text="Edit Entry", fg="black", height = 10, width = 30, command = editmenu)
-Editbutton.pack()
-Editbutton.place(x=0, y=230)
-
-#VSbutton = tk.Button(top, text="View Schedule", fg="black", height = 10, width = 30 ) #command = scheduleMenu)
-#VSbutton.pack()
-#VSbutton.place(x=270, y=230)
-
-Closebutton = tk.Button(top, text="Close", fg= "Black", height = 10, width = 23, command = quit)
+Closebutton = tk.Button(top, text="Close", fg= "Black", height = 5, width = 90, command = quit)
 Closebutton.pack()
-Closebutton.place(x=540, y=230)
+Closebutton.place(x=1, y=231)
 
 
 # This frame is the black line seperating the title from the buttons
