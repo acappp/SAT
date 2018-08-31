@@ -10,11 +10,6 @@ and store them inside of a sortable database.
 import tkinter as tk
 
 
-# Setting the title of the initial window, setting it's size
-# and preventing it from being resizable by the user
-
-
-
 # Setting all colours as callable string value
 # so I can just say 'Black' if I want something to appear black
 bgc = "#515151" # dark grey
@@ -116,6 +111,7 @@ def addEntry():
     DoneButton = tk.Button(add, text="Done", command = add.destroy)
     DoneButton.place(x=400, y=450)
 
+
 def yearsort(Movies):
     # Check to see if the list is only a single item, if so return the single item list
     # Initise the list to return
@@ -156,9 +152,9 @@ def yearsort(Movies):
                 sortedList.append(i)
             break
         # Check which value is smaller and add that next to the sorted list
-        if returnedList1[0].yearOfRelease < returnedList2[0].yearOfRelease:
+        if int(returnedList1[0].yearOfRelease) < int(returnedList2[0].yearOfRelease):
             sortedList.append(returnedList1.pop(0))
-        elif returnedList2[0].yearOfRelease < returnedList1[0].yearOfRelease:
+        elif int(returnedList2[0].yearOfRelease) < int(returnedList1[0].yearOfRelease):
             sortedList.append(returnedList2.pop(0))
         # Values must be equal, add both to sorted list
         else:
@@ -207,9 +203,9 @@ def ratesort(Movies):
                 sortedList.append(i)
             break
         # Check which value is smaller and add that next to the sorted list
-        if returnedList1[0].rating < returnedList2[0].rating:
+        if int(returnedList1[0].rating) < int(returnedList2[0].rating):
             sortedList.append(returnedList1.pop(0))
-        elif returnedList2[0].rating < returnedList1[0].rating:
+        elif int(returnedList2[0].rating) < int(returnedList1[0].rating):
             sortedList.append(returnedList2.pop(0))
         # Values must be equal, add both to sorted list
         else:
@@ -421,6 +417,8 @@ def settings():
 
 def main():
     main = tk.Tk()
+    # Setting the title of the initial window, setting it's size
+    # and preventing it from being resizable by the user
     main.title('Movie Database')
     main.resizable(False, False)
     main.geometry('750x325')
@@ -459,7 +457,7 @@ def main():
     Closebutton = tk.Button(main, text="Close", fg="Black", height=5, width=43, command=quit)
     Closebutton.place(x=1, y=231)
 
-    Returnbutton = tk.Button(main, text="Return to Login", height = 5, width = 43, command = retlog)
+    Returnbutton = tk.Button(main, text="Log Off", height = 5, width = 43, command = retlog)
     Returnbutton.place(x = 377, y = 231)
 
     # This frame is the black line seperating the title from the buttons
