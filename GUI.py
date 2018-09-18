@@ -484,10 +484,12 @@ def login():
         Password = PE.get()
 
         # If the details match it will move onto the main menu screen
-        if Username == 'Capp' or 'Josie' and Password == '123' or 'AnVI':
+        if Username == 'Capp' and Password == '123':
             main()
             log.destroy()
-
+        elif Username == "Josie" and Password == "AnVi":
+            main()
+            log.destroy()
         # If these details do not match it will display the "Incorrect password message
         # And will also clear the username and password boxes
         else:
