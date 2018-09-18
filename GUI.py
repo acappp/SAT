@@ -55,19 +55,23 @@ class Alldata:
         f.write(self.description)
         f.close()
 
+#Clears the database file so that it can be overwritten
 def clearfile():
     f = open('database', 'w')
     f.close()
 
+#Defining Movies
 Movies = []
 
 
+#Function for adding entries into the database
 def addEntry():
     add = tk.Tk()
     add.title("Add An Entry")
     add.resizable(False, False)
     add.geometry('500x490')
 
+    #Labels, entry boxes. The header and Frames are purely cosmetic
     header = tk.Frame(add, bg=LightBlue, height=50, width=1000)
     header.place(x=0, y=0)
 
@@ -78,6 +82,7 @@ def addEntry():
     Title.configure(bg=LightBlue, font = ("Futura", 20))
     Title.place(x=150, y=15)
 
+    #All frames and labels here are using ".place" so their locations are more precise
     L1 = tk.Label(add, text="Name:")
     L1.place(x=10, y=95)
     E1 = tk.Entry(add, bd=5, width = 40)
@@ -105,9 +110,11 @@ def addEntry():
     E5 = tk.Entry(add, bd = 5, width = 40)
     E5.place(x = 150, y = 370)
 
+    #add button, calls the get entry function and sends all the values entered by the user to it
     addButton = tk.Button(add, text="Add Entry", command = lambda: getentry(E1, E2, E3, E4, E5))
     addButton.place(x = 300, y = 450)
 
+    #
     DoneButton = tk.Button(add, text="Done", command = add.destroy)
     DoneButton.place(x=400, y=450)
 
@@ -204,7 +211,7 @@ def ratesort(Movies):
             break
         # Check which value is smaller and add that next to the sorted list
         if int(returnedList1[0].rating) < int(returnedList2[0].rating):
-            sortedList.append(returnedList1.pop(0))
+            sortedList.append(returnedList1.pop(0)) 
         elif int(returnedList2[0].rating) < int(returnedList1[0].rating):
             sortedList.append(returnedList2.pop(0))
         # Values must be equal, add both to sorted list
@@ -214,7 +221,6 @@ def ratesort(Movies):
     Movies = sortedList
     return Movies
 
-# This is where the entries are stored alogside the file
 
 
 
@@ -225,6 +231,8 @@ def ratesort(Movies):
 def startread():
     p = open('database', 'r')
     q=0
+    #The Q value is there so that when the code equals new line it has a value to set,
+    # and it makes the code stop without crashing
     for line in p:
         if line == '\n':
             q=6
@@ -237,8 +245,9 @@ def startread():
     p.close()
     return Movies
 
-
+# This function is for the removal of entries that have been put into the database
 def removeEntry():
+    #Creating the window, setting dimensions as unresizable, etc
     remove = tk.Tk()
     remove.title("Remove Entry")
     remove.resizable(False, False)
@@ -247,6 +256,7 @@ def removeEntry():
     header = tk.Frame(remove, bg=LightBlue, height=50, width=1000)
     header.place(x=0, y=0)
 
+    #Creating cosmetic frames, the labels and they're using ".place"
     F1 = tk.Frame(header, bg=Black, height=5, width=1000)
     F1.place(x=0, y=45)
 
@@ -259,23 +269,30 @@ def removeEntry():
 
     ## For drop the box
     def generatelist():
+        #making the list that the drop down box will display
+        # It gets all the names in the Movies List
         mNames = []
         for i in Movies:
             mNames.append(i.name)
         tkvar = tk.StringVar(remove)
         tkvar.set(mNames[0])
 
+        #Creating the drop down box
         DropMenu = tk.OptionMenu(remove, tkvar, *mNames)
         DropMenu.pack()
         DropMenu.place(x=125, y=75)
         DropMenu.configure(height=2, width=30)
 
         return tkvar
+        # Tkvar is returned to that the next function can take the value and delete it
 
+    # deletes the entry selected by the user, Triggered by a button
     def delete(tkvar):
+        # gets the value and sets it as 'p'
         p = tkvar.get()
         print(p)
         y=0
+        # This loop searches for the name in the file and then deletes the line.
         for i in Movies:
 
             if i.name == p:
@@ -287,11 +304,9 @@ def removeEntry():
 
             i.write()
 
-
-    # Remove entry command .remove
-
     tkvar = generatelist()
 
+    #Calls the delete function, using Lambda lets me give it a value even though it's outside the function
     DeleteButton = tk.Button(remove, text="Delete", command=lambda: delete(tkvar))
     DeleteButton.place(x=300, y=150)
 
@@ -299,18 +314,20 @@ def removeEntry():
     DoneButton.place(x=375, y=150)
 
 
-
+# This is the function for getting the entries entered by the user and clearing them once they are added to the file
 def getentry(E1, E2, E3, E4, E5):
     # The purpose of this while loop is to prevent the user from adding entries that are blank,
     # If a blank line is detected by the start read function the program will crash
     repeat = True
     while repeat == True:
+        #Getting all the values and assigning them their names
         name = E1.get()
         director = E2.get()
         rating = E3.get()
         yearOfRelease = E4.get()
         description = E5.get()
 
+        #This checks if all the values are not blank and if they aren't it appends them to the Movies list
         if name and director and rating and yearOfRelease and description != '':
             Movie = Alldata(name, director, rating, yearOfRelease, description)
             Movies.append(Movie)
@@ -329,14 +346,17 @@ def getentry(E1, E2, E3, E4, E5):
             break
 
 
-
+# This is the function that displays the database
 def database():
+    # Creating the window and setting the size
+    # This box can actually be streched vertically but not horizontally.
+    # Data is a global variable because of the Re launching functions...
+    # ...I have that close and reopen the window when a sort button is pressed
     global data
     data = tk.Tk()
     data.title("database")
     data.resizable(False, True)
     data.geometry('1000x400')
-
 
     header = tk.Frame(data, bg=LightBlue, height=50, width=1000)
     header.place(x=0, y=0)
@@ -359,28 +379,23 @@ def database():
     DescriptionL = tk.Label(data, text='Description:')
     DescriptionL.place(x=650, y=50)
 
+    # This for loop going through the movies list and creates a list for each of the sectors of it
     y = 1
     for i in Movies:
         NLabel = tk.Label(data, text = i.name)
         NLabel.place(x = 40, y = 50+(y*20))
-
         DirLabel = tk.Label(data, text = i.director)
         DirLabel.place(x = 240, y = 50+(y*20))
-
         RLabel = tk.Label(data, text = i.rating)
         RLabel.place(x = 400, y = 50+(y*20))
-
         yORLabel = tk.Label(data, text = i.yearOfRelease)
         yORLabel.place(x = 500, y = 50+(y*20))
-
-
         DesLabel = tk.Label(data, text = i.description)
         DesLabel.place(x = 650, y = 50+(y*20))
         y = y+1
 
     DoneButton = tk.Button(data, text="Done", command = data.destroy)
     DoneButton.place(x=900, y=350)
-    #DoneButton.pack(side=LEFT)
 
     sortRButton = tk.Button(data, text="Sort via Rating", command=commandR) # and close)
     sortRButton.place(x=50, y = 10)
@@ -390,11 +405,14 @@ def database():
     sortYButton.place(x=180, y = 10)
     sortYButton.configure(highlightbackground = LightBlue)
 
+# Makes Movies a global variable so that it can be used by the sort Function
+# I've made two seperate versions of this for the rate and year sorts because it appears to crash otherwise
 def commandR():
     global Movies
     Movies = ratesort(Movies)
     data.destroy()
     database()
+
 
 def commandY():
     global Movies
@@ -402,19 +420,8 @@ def commandY():
     data.destroy()
     database()
 
-def settings():
-    setting = tk.Tk()
-    setting.title("Settings")
-    setting.resizable(False, False)
-    setting.geometry('500x400')
 
-
-    DoneButton = tk.Button(setting, text="Done", command=setting.destroy)
-    DoneButton.pack()
-    DoneButton.place(x=375, y=350)
-
-
-
+# The function for the main window of the program
 def main():
     main = tk.Tk()
     # Setting the title of the initial window, setting it's size
@@ -435,16 +442,14 @@ def main():
     title.configure(bg=LightBlue, font=("Futura", 30))
     title.place(x=300, y=12)
 
+    #This function is for returning to the log in screen
+    # Creates the log in window and destroys the main menu screen
     def retlog():
         main.destroy()
         login()
 
     # The next 6 small blocks of code here add all the needed buttons onto the main menu of the GUI
     # Each calls a different fuction that will open a specific corresponding  window
-    settingsbutton = tk.Button(main, text="Settings", fg="Black", command=settings)
-    settingsbutton.place(x=650, y=12)
-    settingsbutton.configure(highlightbackground=LightBlue)
-
     VDbutton = tk.Button(main, text="View Database", fg="Black", height=10, width=27, command=database)
     VDbutton.place(x=1, y=55)
 
@@ -465,9 +470,7 @@ def main():
     f.pack()
     f.place(x=0, y=50)
 
-
-
-
+# This function creates the log in window and is the first thing that starts when running the program
 def login():
     global log
     log = tk.Tk()
@@ -475,14 +478,18 @@ def login():
     log.resizable(False, False)
     log.geometry('500x300')
 
+    #Checks if the username and password entered by the user are correct
     def checkdetails():
         Username = UE.get()
         Password = PE.get()
 
+        # If the details match it will move onto the main menu screen
         if Username == 'Capp' and Password == '123':
             main()
             log.destroy()
 
+        # If these details do not match it will display the "Incorrect password message
+        # And will also clear the username and password boxes
         else:
             error.tkraise()
             print('Username or Password is Incorrect')
@@ -516,6 +523,7 @@ def login():
     PE = tk.Entry(log, bd=5, width=40, show="*")
     PE.place(x=150, y=160)
 
+    # When pressed will call the check details function
     LoginButton = tk.Button(log, text="Login", command=checkdetails)
     LoginButton.place(x=300, y=230)
 
@@ -528,6 +536,8 @@ def login():
 # as explained before it adds all the previous entries entered by the user back into the movies list
 # It is necessary for this function to run before everything else
 startread()
+
+#Opens the log on screen
 login()
 
 
