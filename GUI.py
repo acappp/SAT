@@ -484,7 +484,7 @@ def login():
         Password = PE.get()
 
         # If the details match it will move onto the main menu screen
-        if Username == 'Capp' and Password == '123':
+        if Username == 'Capp' or 'Josie' and Password == '123' or 'AnVI':
             main()
             log.destroy()
 
